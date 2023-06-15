@@ -1,6 +1,6 @@
 const ListItem = () => {
     return (
-        <li>
+        <li className="d-flex list-group-item">
             <div>
                 <img src="" alt="" />
                 <div>
@@ -8,9 +8,9 @@ const ListItem = () => {
                         Nombre Apellido
                     </h2>
                     <ul>
-                        <li><a href=""><i class="bi bi-geo-alt-fill"></i> Calle Ficticia 123</a></li>
-                        <li><a href=""><i class="bi bi-telephone-fill"></i> 043 012351 025</a></li>
-                        <li><a href=""><i class="bi bi-envelope-fill"></i> lucas@gmail.com</a></li>
+                        <li><a href=""><i className="bi bi-geo-alt-fill"></i> Calle Ficticia 123</a></li>
+                        <li><a href=""><i className="bi bi-telephone-fill"></i> 043 012351 025</a></li>
+                        <li><a href=""><i className="bi bi-envelope-fill"></i> lucas@gmail.com</a></li>
                     </ul>
                 </div>
                 <div>
