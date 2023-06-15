@@ -1,7 +1,12 @@
+import Form  from "../components/Form.jsx";
+
 const FormView = () => {
     return(
-        <section>
-        <div></div>
+        <section className="container">
+            <div className="row d-flex justify-content-center">
+                <Form/>
+            </div>
+            
         </section>
     )
 };
