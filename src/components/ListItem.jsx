@@ -1,11 +1,11 @@
 import image from "./../assets/img/user-img.png";
-import classes from "./ListItem.modules.css";
+
 
 const ListItem = () => {
     return (
-        <li className="d-flex list-group-item">
-                <div className={`${classes.contact-image} contact-image object-fit-contain`}>
-                <img src={image} className="rounded-circle " alt="user-image" />
+        <li className="d-flex list-group-item " >
+                <div className="">
+                <img src={image} className="imagen" alt="user-image" />
                 </div>
                 <div>
                     <h2>
