@@ -24,8 +24,9 @@ export const AppProvider = ({children}) => {
         const value = e.target.value;
         
         setUserInput((prev)=> {
-            
-            return {...prev,[name]:value}
+
+            const id = newList.length + 1
+            return {...prev,id,[name]:value}
         })
         
     }
