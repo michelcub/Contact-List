@@ -12,7 +12,9 @@ const HomeView = () => {
                 <Navbar/>
                 <div>
                 <ContactList>
-                <ListItem/>
+                {store.newList.map((contact) => {
+                    <ListItem id={contact.id} name={contact.name} email={contact.email} phone={contact.phone} address={contact.address} />
+                })}
                 </ContactList>
                 </div>
             </section>
