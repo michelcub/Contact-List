@@ -8,7 +8,7 @@ const Edition = () => {
     return(
         <section className="container">
             <div className="row d-flex justify-content-center">
-                <Form contact={store.editContact}/>
+                <Form/>
             </div>
         </section>
     )
