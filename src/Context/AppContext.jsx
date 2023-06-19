@@ -27,24 +27,22 @@ export const AppProvider = ({ children }) => {
 
         setUserInput((prev) => {
 
-            const id = newList.length + 1
-            return { ...prev, id, [name]: value }
+            return { ...prev, [name]: value }
         })
 
     }
 
     const handleEditButton = (e) => {
         const id = e.target.parentElement.parentElement.id;
-        // const newItems = newList.map(contact => {
-        //     if (contact.id === id) {
-        //         return contact
-        //     }
-        navigate("/edit");
-        // })
-        console.log(id);
-        const findId = newList.find(contact => contact.id === id);
+        const findId = newList.find(contact => Number(contact.id) === Number(id));
         setEditContact(findId);
-        console.log(findId);
+        navigate("/edit");
+
+    }
+
+    const handleOnSubmitEdit = (e) => {
+        e.preventDefault();
+    
     }
 
 
