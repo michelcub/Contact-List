@@ -5,13 +5,14 @@ import useAppContext from "../Context/AppContext";
 const HomeView = () => {
 
     const {store, actions} = useAppContext();
+console.log(store.fullname);
 
     return(
             <section>
                 <Navbar/>
                 <div>
                 <ContactList>
-                {store.newList.map(contact => <ListItem id={contact.id} name={contact.name} email={contact.email} phone={contact.phone} address={contact.address} key={contact.id}/>
+                {store.newList.map(contact => <ListItem id={contact.id} name={contact.fullname} email={contact.email} phone={contact.phone} address={contact.address} key={contact.id}/>
                 )}
                 </ContactList>
                 </div>
