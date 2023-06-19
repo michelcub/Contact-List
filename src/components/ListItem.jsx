@@ -1,7 +1,10 @@
 import image from "./../assets/img/user-img.png";
 import styles from "./../../styles.css";
+import useAppContext from "../Context/AppContext";
 
 const ListItem = ({id, name , address, phone, email}) => {
+    const {actions} = useAppContext();
+    
     return (
         <div className="container-fluid">
         <li className=" d-flex list-group-item " >
@@ -16,10 +19,10 @@ const ListItem = ({id, name , address, phone, email}) => {
                         <li><a className="nav-link-item text-decoration-none text-secondary" href=""><i className="bi bi-envelope-fill"></i> {email}</a></li>
                     </ul>
                 </div>
-                <div className="ms-auto">
-                    <button className={styles.buttons}><i className="bi bi-pencil"></i>
+                <div id={id} className="ms-auto">
+                    <button onClick={actions.handleEditButton}><i className="bi bi-pencil"></i>
                     </button>
-                    <button className={styles.buttons}>
+                    <button >
                         <i className="bi bi-trash-fill"></i>
                     </button>
                 </div>

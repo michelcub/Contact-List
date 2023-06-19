@@ -34,6 +34,11 @@ export const AppProvider = ({children}) => {
         
     }
 
+    const handleEditButton = (e) => {
+        const id = e.target.parentElement.id;
+        console.log(id);
+    }
+
 
     const store ={
         newList,
@@ -41,7 +46,8 @@ export const AppProvider = ({children}) => {
     }
     const actions={
         handleOnSubmit,
-        handleGetUserInput
+        handleGetUserInput,
+        handleEditButton
     }
 
     console.log(store.newList)

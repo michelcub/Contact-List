@@ -5,7 +5,6 @@ import useAppContext from "../Context/AppContext";
 const HomeView = () => {
 
     const {store, actions} = useAppContext();
-console.log(store.fullname);
 
     return(
             <section>
@@ -19,5 +18,4 @@ console.log(store.fullname);
             </section>
     )
 };
-
 export default HomeView;
