@@ -1,21 +1,24 @@
 import { useContext, createContext, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
 
 export const AppProvider = ({children}) => {
     const [newList, setNewList] = useState([]);
     const [userInput, setUserInput] = useState({});
+    const navigate = useNavigate();
     
 
 
     const createNewContact = () => {
-        setNewList(prev=> [...prev, userInput])
+        const userInputsId = {...userInput, id: Math.random()}
+        setNewList(prev=> [...prev, userInputsId])
     }
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
         createNewContact();
+        navigate("/");
         
         
     }

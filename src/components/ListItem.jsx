@@ -1,9 +1,9 @@
 import image from "./../assets/img/user-img.png";
 import "./../../styles.css"
 
-const ListItem = (id,name , address, phone, email) => {
+const ListItem = ({id, name , address, phone, email}) => {
     return (
-        <li className="d-flex list-group-item " key={id} >
+        <li className="d-flex list-group-item " >
                 <div className="">
                 <img src={image} className="user-image rounded-circle object-fit-cover" alt="user-image" />
                 </div>
