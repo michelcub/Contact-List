@@ -1,17 +1,43 @@
-import { useContext, createContext, useState } from "react";
+import { useContext, createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-    const [newList, setNewList] = useState([]);
+
+    const localStorage = JSON.parse(window.localStorage.getItem('list'));
+
+    const [newList, setNewList] = useState(localStorage?localStorage:[]);
     const [userInput, setUserInput] = useState({});
     const navigate = useNavigate();
-    const [editContact, setEditContact] = useState({});
+    const [selectedContactId, setSelectedContactId] = useState();
+
+
+    useEffect(()=>{
+        const list = JSON.stringify(newList)
+        window.localStorage.setItem('list',list)
+    },[newList])
 
     const createNewContact = () => {
         const userInputsId = { ...userInput, id: Math.random() }
         setNewList(prev => [...prev, userInputsId])
+    }
+
+    const editContact = () => {
+        const newEditedContact = {...userInput, id:selectedContactId}
+        const editedList = newList.map(contact => {
+            if(Number(contact.id) === Number(selectedContactId)){
+                return newEditedContact;
+            }
+            return contact;
+        })
+        setNewList(editedList)
+    }
+
+    const handleDeleteContact = (e) => {
+        const id = e.target.parentElement.parentElement.id;
+        const updateList = newList.filter(contact => Number(contact.id) !==Number(id));
+        setNewList(updateList);
     }
 
     const handleOnSubmit = (e) => {
@@ -34,30 +60,36 @@ export const AppProvider = ({ children }) => {
 
     const handleEditButton = (e) => {
         const id = e.target.parentElement.parentElement.id;
-        const findId = newList.find(contact => Number(contact.id) === Number(id));
-        setEditContact(findId);
+        // const findId = newList.find(contact => Number(contact.id) === Number(id));
+        setSelectedContactId(id);
+        
         navigate("/edit");
 
     }
 
     const handleOnSubmitEdit = (e) => {
         e.preventDefault();
-    
+        editContact();
+        navigate('/')
     }
 
 
     const store = {
         newList,
         userInput,
-        editContact
+        selectedContactId
     }
     const actions = {
         handleOnSubmit,
         handleGetUserInput,
-        handleEditButton
+        handleEditButton,
+        handleOnSubmitEdit,
+        handleDeleteContact
     }
 
-    console.log(store.newList)
+    
+
+    
     return (
         <AppContext.Provider value={{ store, actions }}>
             {children}

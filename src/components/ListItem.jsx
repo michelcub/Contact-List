@@ -22,7 +22,7 @@ const ListItem = ({id, name , address, phone, email}) => {
                 <div id={id} className="ms-auto">
                     <button onClick={actions.handleEditButton}><i className="bi bi-pencil"></i>
                     </button>
-                    <button >
+                    <button onClick={actions.handleDeleteContact} >
                         <i className="bi bi-trash-fill"></i>
                     </button>
                 </div>
