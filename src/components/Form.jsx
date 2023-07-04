@@ -10,10 +10,7 @@ const Form = () => {
     const location = useLocation()
     const contact = newList.find(contact => Number(contact.id)===Number(selectedContactId))
     const[contactData, setContactData] = useState({...contact})
-    const placeholderFullName = location.pathname==='/myform'?'Enter Full Name': contactData.fullname;
-    const placeholderEmail = location.pathname==='/myform'?'Enter your email': contactData.email;
-    const placeholderPhone = location.pathname==='/myform'?'Enter your phone': contactData.phone;
-    const placeholderAddress = location.pathname==='/myform'?'Enter your address': contactData.address;
+
 
     const navigate = useNavigate()
 
