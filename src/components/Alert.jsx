@@ -1,36 +1,24 @@
-const Alert = () => {
+import useAppContext from "../Context/AppContext.jsx";
+
+export const Alert = () => {
+
+    const {store, actions} = useAppContext();
+
+
   return (
-    <div className="modal" tabIndex="-1">
-      <div className="modal-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Confrimar</h5>
-            <button
-              type="button"
-              className="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div className="modal-body">
-            <p>Seguro que quieres eliminar el elemento?</p>
-          </div>
-          <div className="modal-footer">
-            <button
-              type="button"
-              className="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" className="btn btn-danger">
-             delete
-            </button>
-          </div>
+    <div className={`${store.showModal?'display-block': 'd-none'} w-75  h-25 align-self-center m-auto p-5 border border-secondary rounded-3 my-5`} >
+        <div className='modal-header'>
+          <h3>Eliminar Contacto</h3>
         </div>
-      </div>
+        <div className='modal-body'>
+          <p>Estas segur@ que quieres eliminar el contacto?</p>
+        </div>
+        <div className='d-flex justify-content-end gap-4 p-0'>
+            <button onClick={actions.handleConfirmDelete} className=' btn btn-outline-danger'> Si, Eliminar</button>
+            <button onClick={()=>{ actions.setShowModal(false)}} className='btn btn-secondary'> Cancelar</button>
+        </div>
     </div>
-  );
+  )
 };
 
-export default Alert;
+

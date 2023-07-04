@@ -1,6 +1,7 @@
 import useAppContext from "../Context/AppContext";
-import { useLocation } from "react-router-dom";
-
+import {useLocation, useNavigate} from "react-router-dom";
+import {useState} from "react";
+import {useNavigation} from "react-router-dom";
 const Form = () => {
 
     const {store, actions} = useAppContext();
@@ -8,30 +9,32 @@ const Form = () => {
     const {newList, selectedContactId} = store;
     const location = useLocation()
     const contact = newList.find(contact => Number(contact.id)===Number(selectedContactId))
+    const[contactData, setContactData] = useState({...contact})
+    const placeholderFullName = location.pathname==='/myform'?'Enter Full Name': contactData.fullname;
+    const placeholderEmail = location.pathname==='/myform'?'Enter your email': contactData.email;
+    const placeholderPhone = location.pathname==='/myform'?'Enter your phone': contactData.phone;
+    const placeholderAddress = location.pathname==='/myform'?'Enter your address': contactData.address;
 
-    const placeholderFullName = location.pathname==='/myform'?'Enter Full Name': contact.fullname;
-    const placeholderEmail = location.pathname==='/myform'?'Enter your email': contact.email;
-    const placeholderPhone = location.pathname==='/myform'?'Enter your phone': contact.phone;
-    const placeholderAddress = location.pathname==='/myform'?'Enter your address': contact.address;
-
+    const navigate = useNavigate()
 
     return(
         <section className="col-9 p-5">
             <h1 className="text-center">{location.pathname==='/myform'?'Add new contact':'Edit Contact'}</h1>
             <form action="POST" className="p-3" onSubmit={location.pathname==='/myform'?handleOnSubmit:handleOnSubmitEdit}>
                 <label className="w-100 mt-3" htmlFor="fullName">Full Name</label>
-                <input onChange={handleGetUserInput}value={null} className="form-control w-100" type="text" placeholder={placeholderFullName} name="fullname" id="fullNameInput" required minLength='3'/>
+                <input onChange={(e)=>{handleGetUserInput(e); setContactData(e.target.value)}} value={contactData.fullname}  placeholder='Enter Full Name' className="form-control w-100" type="text"  name="fullname" id="fullNameInput" required minLength='3'/>
 
                 <label className="w-100 mt-3" htmlFor="emailInput">Email</label>
-                <input onChange={handleGetUserInput} value={null} className="form-control w-100" type="text" placeholder={placeholderEmail} name="email" id="emailInput" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"/>
+                <input onChange={(e)=>{handleGetUserInput(e); setContactData(e.target.value)}} value={contactData.email} className="form-control w-100" type="text" placeholder='Enter your email' name="email" id="emailInput" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"/>
 
                 <label className="w-100 mt-3" htmlFor="phoneInput">Phone</label>
-                <input onChange={handleGetUserInput} value={null} className="form-control w-100" type="number" placeholder={placeholderPhone} name="phone" id="phoneInput" required minLength='9'/>
+                <input onChange={(e)=>{handleGetUserInput(e); setContactData(e.target.value)}} value={contactData.phone} className="form-control w-100" type="number" placeholder='Enter your phone' name="phone" id="phoneInput" required minLength='9'/>
 
                 <label className="w-100 mt-3" htmlFor="addressInput">Address</label>
-                <input onChange={handleGetUserInput} value={null} className="form-control w-100" type="text" placeholder={placeholderAddress} name='address' id="addressInput" required minLength='6'/>
+                <input onChange={(e)=>{handleGetUserInput(e); setContactData(e.target.value)}} value={contactData.address} className="form-control w-100" type="text" placeholder='Enter your address' name='address' id="addressInput" required minLength='6'/>
 
-                <button className="btn btn-primary w-100 mt-4" type="submit">save</button>
+                <button className="btn btn-primary w-100 mt-4" type="submit">Save</button>
+                <button className="btn btn-secondary w-100 mt-2" onClick={()=>{navigate('/')}}>Cancel</button>
             </form>
         </section>
     )

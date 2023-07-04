@@ -10,7 +10,10 @@ export const AppProvider = ({ children }) => {
     const [newList, setNewList] = useState(localStorage?localStorage:[]);
     const [userInput, setUserInput] = useState({});
     const navigate = useNavigate();
-    const [selectedContactId, setSelectedContactId] = useState();
+    const [selectedContactId, setSelectedContactId] = useState(false);
+    const [confirmationDelete, setConfirmationDelete] = useState(false);
+    const [showModal, setShowModal] = useState()
+    const [updateList, setUpdateList] =useState([])
 
 
     useEffect(()=>{
@@ -36,9 +39,24 @@ export const AppProvider = ({ children }) => {
 
     const handleDeleteContact = (e) => {
         const id = e.target.parentElement.parentElement.id;
-        const updateList = newList.filter(contact => Number(contact.id) !==Number(id));
-        setNewList(updateList);
+        const listDeletedElement = newList.filter(contact => Number(contact.id) !==Number(id));
+        setUpdateList(listDeletedElement);
+        setShowModal(true)
     }
+
+    const handleConfirmDelete = () => {
+        setNewList(updateList);
+        setShowModal(false);
+    }
+
+    useEffect(()=>{
+        if(confirmationDelete){
+            setNewList(updateList)
+            setShowModal(false)
+            setConfirmationDelete((prev)=> !prev)
+        }
+
+    },[handleDeleteContact])
 
     const handleOnSubmit = (e) => {
         e.preventDefault();
@@ -74,22 +92,24 @@ export const AppProvider = ({ children }) => {
     }
 
 
+
     const store = {
         newList,
         userInput,
-        selectedContactId
+        selectedContactId,
+        showModal,
+        confirmationDelete
     }
     const actions = {
         handleOnSubmit,
         handleGetUserInput,
         handleEditButton,
         handleOnSubmitEdit,
-        handleDeleteContact
+        handleDeleteContact,
+        handleConfirmDelete,
+        setShowModal
     }
 
-    
-
-    
     return (
         <AppContext.Provider value={{ store, actions }}>
             {children}
