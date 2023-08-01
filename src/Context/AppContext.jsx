@@ -15,7 +15,10 @@ export const AppProvider = ({ children }) => {
     const [showModal, setShowModal] = useState()
     const [updateList, setUpdateList] =useState([])
 
-
+    const handleResetData = () => {
+        setUserInput({ name: "", lastName: "", email: "", phone: "", address: "" })
+        setSelectedContactId(false)
+    }
     useEffect(()=>{
         const list = JSON.stringify(newList)
         window.localStorage.setItem('list',list)
@@ -107,7 +110,8 @@ export const AppProvider = ({ children }) => {
         handleOnSubmitEdit,
         handleDeleteContact,
         handleConfirmDelete,
-        setShowModal
+        setShowModal,
+        handleResetData
     }
 
     return (
