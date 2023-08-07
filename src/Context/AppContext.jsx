@@ -5,113 +5,98 @@ const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
 
-    const localStorage = JSON.parse(window.localStorage.getItem('list'));
+    const lStorage = JSON.parse(window.localStorage.getItem('listContact'));
 
-    const [newList, setNewList] = useState(localStorage?localStorage:[]);
-    const [userInput, setUserInput] = useState({});
+    const [listContact, setListContact] = useState(lStorage?.length>0?lStorage:[]);
+    const [newContact, setNewContact] = useState({})
+    const [selectedContact, setSelectedContact] = useState({})
+    const [editedContact, setEditedContact] = useState({})
     const navigate = useNavigate();
-    const [selectedContactId, setSelectedContactId] = useState(false);
-    const [confirmationDelete, setConfirmationDelete] = useState(false);
-    const [showModal, setShowModal] = useState()
-    const [updateList, setUpdateList] =useState([])
+    
 
-    const handleResetData = () => {
-        setUserInput({ name: "", lastName: "", email: "", phone: "", address: "" })
-        setSelectedContactId(false)
-    }
+   
     useEffect(()=>{
-        const list = JSON.stringify(newList)
-        window.localStorage.setItem('list',list)
-    },[newList])
+        const list = JSON.stringify(listContact)
+        window.localStorage.setItem('listContact',list)
+    },[listContact])
 
-    const createNewContact = () => {
-        const userInputsId = { ...userInput, id: Math.random() }
-        setNewList(prev => [...prev, userInputsId])
+    const resetData = () => {
+        setNewContact({})
+        setSelectedContact({})
+        setEditedContact({})
     }
 
-    const editContact = () => {
-        const newEditedContact = {...userInput, id:selectedContactId}
-        const editedList = newList.map(contact => {
-            if(Number(contact.id) === Number(selectedContactId)){
-                return newEditedContact;
-            }
-            return contact;
-        })
-        setNewList(editedList)
-    }
-
-    const handleDeleteContact = (e) => {
-        const id = e.target.parentElement.parentElement.id;
-        const listDeletedElement = newList.filter(contact => Number(contact.id) !==Number(id));
-        setUpdateList(listDeletedElement);
-        setShowModal(true)
-    }
-
-    const handleConfirmDelete = () => {
-        setNewList(updateList);
-        setShowModal(false);
-    }
-
-    useEffect(()=>{
-        if(confirmationDelete){
-            setNewList(updateList)
-            setShowModal(false)
-            setConfirmationDelete((prev)=> !prev)
+    const handleSetContactInList = () => {
+        const contact = { ...newContact, id: Math.random()*9999999 }
+        if (contact.fullname === undefined || contact.address === undefined || contact.phone === undefined || contact.email === undefined) {
+            alert('Please fill all the fields')
+            return
         }
-
-    },[handleDeleteContact])
-
-    const handleOnSubmit = (e) => {
-        e.preventDefault();
-        createNewContact();
-        navigate("/");
-
-
+        setListContact(prev => [...prev, contact])
+        navigate('/')
+        setNewContact({})
     }
-    const handleGetUserInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
 
-        setUserInput((prev) => {
+    const handleSetContact = (e) => {
+        setNewContact(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    }
+    
+    const handleGetContact = (e) => {
+        const {id} = e.target.parentNode.parentNode
+        const contact = listContact.find(contact=>parseInt(contact.id)===parseInt(id))
+        console.log(contact)
+        setSelectedContact(contact)
+        navigate('/edit')
+        setEditedContact(contact)
+    }
 
-            return { ...prev, [name]: value }
+    const handleGetContactForDelete = (e) => {
+        const {id} = e.target.parentNode.parentNode
+        const contact = listContact.find(contact=>parseInt(contact.id)===parseInt(id))
+        setSelectedContact(contact)
+    }
+
+    const handleSetEditedContact = (e) => {
+        setEditedContact(prev => ({ ...prev,'id':selectedContact.id, [e.target.name]: e.target.value }))
+    }
+
+    const handleEditContact = () => {
+        const editedList = listContact.map(contact => {
+            if (parseInt(contact.id) === parseInt(editedContact.id)) {
+                return editedContact
+            }
+            return contact
         })
-
-    }
-
-    const handleEditButton = (e) => {
-        const id = e.target.parentElement.parentElement.id;
-        // const findId = newList.find(contact => Number(contact.id) === Number(id));
-        setSelectedContactId(id);
-        
-        navigate("/edit");
-
-    }
-
-    const handleOnSubmitEdit = (e) => {
-        e.preventDefault();
-        editContact();
+        setListContact(editedList)
+        resetData()
         navigate('/')
     }
 
+    const handleDeleteContact = () => {
+        const {id} = selectedContact
+        const newList = listContact.filter(contact=> parseInt(contact.id)!==parseInt(id))
+        setListContact(newList)
+        
+    }
 
+    
 
     const store = {
-        newList,
-        userInput,
-        selectedContactId,
-        showModal,
-        confirmationDelete
+        newContact,
+        listContact,
+        selectedContact,
+        editedContact,
+
     }
     const actions = {
-        handleOnSubmit,
-        handleGetUserInput,
-        handleEditButton,
-        handleOnSubmitEdit,
+        handleSetContact,
+        handleSetContactInList,
+        handleGetContact,
+        handleEditContact,
+        handleSetEditedContact,
         handleDeleteContact,
-        handleConfirmDelete,
-        setShowModal,
-        handleResetData
+        handleGetContactForDelete
+
     }
 
     return (
