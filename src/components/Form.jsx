@@ -61,7 +61,7 @@ const Form = () => {
             </section>
         )
     }
-    console.log(selectedContact)
+  
     return(
         <section className="col-9 p-5">
             <h1 className="text-center">{location.pathname==='/myform'?'Add new contact':'Edit Contact'}</h1>
