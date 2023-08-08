@@ -44,7 +44,6 @@ export const AppProvider = ({ children }) => {
     const handleGetContact = (e) => {
         const {id} = e.target.parentNode.parentNode
         const contact = listContact.find(contact=>parseInt(contact.id)===parseInt(id))
-        console.log(contact)
         setSelectedContact(contact)
         navigate('/edit')
         setEditedContact(contact)
